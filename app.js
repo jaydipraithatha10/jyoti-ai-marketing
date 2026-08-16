@@ -1,59 +1,40 @@
-/* Jyoti AI Marketing — Poster Engine */
-
-const navs = document.querySelectorAll(".nav");
-
-function showSection(id) {
-  document.querySelectorAll(".section").forEach(section => {
-    section.classList.remove("active");
-  });
-
-  const target = document.getElementById(id);
-  if (target) target.classList.add("active");
-
-  navs.forEach(nav => {
-    nav.classList.toggle("active", nav.dataset.section === id);
-  });
-
-  const titles = {
-    dashboard: "Good Morning, Jyoti Gruh Udhyog",
-    poster: "3-Format Poster Generator",
-    calendar: "Occasion & Daily Calendar",
-    reviews: "Review Marketing",
-    publishing: "Social Publishing",
-    analytics: "Marketing Analytics"
-  };
-
-  const title = document.getElementById("pageTitle");
-
-  if (title) {
-    title.textContent = titles[id] || "Jyoti AI Marketing";
-  }
-}
-
-navs.forEach(nav => {
-  nav.addEventListener("click", function () {
-    showSection(this.dataset.section);
-  });
-});
+/* =====================================================
+   JYOTI AI MARKETING
+   PREMIUM POSTER ENGINE
+   Version 2.0
+===================================================== */
 
 
-/* =========================
-   CANVAS
-========================= */
-
-const canvas = document.getElementById("posterCanvas");
-const ctx = canvas ? canvas.getContext("2d") : null;
+/* =====================================================
+   GLOBAL VARIABLES
+===================================================== */
 
 let uploadedImage = null;
+
 let currentFormat = "square";
+
 let designIndex = 0;
 
 
-/* =========================
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const canvas =
+  document.getElementById("posterCanvas");
+
+const ctx =
+  canvas
+    ? canvas.getContext("2d")
+    : null;
+
+
+/* =====================================================
    FORMATS
-========================= */
+===================================================== */
 
 const formats = {
+
   square: {
     width: 1080,
     height: 1080,
@@ -71,14 +52,16 @@ const formats = {
     height: 1920,
     label: "WHATSAPP STATUS"
   }
+
 };
 
 
-/* =========================
+/* =====================================================
    DESIGNS
-========================= */
+===================================================== */
 
 const designs = [
+
   {
     bg: "#F3E4C7",
     panel: "#5A3218",
@@ -99,346 +82,759 @@ const designs = [
     gold: "#B98A32",
     light: "#FFFDF7"
   }
+
 ];
 
 
-/* =========================
-   FORMAT BUTTONS
-========================= */
+/* =====================================================
+   SECTION NAVIGATION
+===================================================== */
 
-document.querySelectorAll(".format").forEach(button => {
+function showSection(id) {
 
-  button.addEventListener("click", function () {
+  const sections =
+    document.querySelectorAll(".section");
 
-    document.querySelectorAll(".format").forEach(btn => {
-      btn.classList.remove("active");
-    });
+  sections.forEach(function(section) {
 
-    this.classList.add("active");
+    section.classList.remove("active");
 
-    currentFormat = this.dataset.format;
-
-    drawPoster(currentFormat);
   });
 
-});
+
+  const target =
+    document.getElementById(id);
+
+  if (target) {
+
+    target.classList.add("active");
+
+  }
 
 
-/* =========================
-   PHOTO UPLOAD
-========================= */
+  const navs =
+    document.querySelectorAll(".nav");
 
-const photoInput = document.getElementById("photo");
+  navs.forEach(function(nav) {
 
-if (photoInput) {
+    nav.classList.toggle(
+      "active",
+      nav.dataset.section === id
+    );
 
-  photoInput.addEventListener("change", function (event) {
+  });
 
-    const file = event.target.files && event.target.files[0];
 
-    if (!file) return;
+  const titles = {
 
-    if (!file.type.startsWith("image/")) {
-      alert("Please select an image file.");
-      return;
-    }
+    dashboard:
+      "Good Morning, Jyoti Gruh Udhyog",
 
-    const reader = new FileReader();
+    poster:
+      "3-Format Poster Generator",
 
-    reader.onload = function (e) {
+    calendar:
+      "Occasion & Daily Calendar",
 
-      const img = new Image();
+    reviews:
+      "Review Marketing",
 
-      img.onload = function () {
-        uploadedImage = img;
-        drawPoster(currentFormat);
-      };
+    publishing:
+      "Social Publishing",
 
-      img.onerror = function () {
-        alert("Image load failed.");
-      };
+    analytics:
+      "Marketing Analytics"
 
-      img.src = e.target.result;
-    };
+  };
 
-    reader.readAsDataURL(file);
+
+  const pageTitle =
+    document.getElementById("pageTitle");
+
+
+  if (pageTitle) {
+
+    pageTitle.textContent =
+      titles[id] || "Jyoti AI Marketing";
+
+  }
+
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
   });
 
 }
 
 
-/* =========================
-   INPUT EVENTS
-========================= */
+/* =====================================================
+   NAV BUTTONS
+===================================================== */
+
+document
+  .querySelectorAll(".nav")
+  .forEach(function(nav) {
+
+    nav.addEventListener(
+      "click",
+      function() {
+
+        showSection(
+          this.dataset.section
+        );
+
+      }
+    );
+
+  });
+
+
+/* =====================================================
+   CREATE POSTER BUTTONS
+===================================================== */
+
+const topCreatePoster =
+  document.getElementById(
+    "topCreatePoster"
+  );
+
+
+if (topCreatePoster) {
+
+  topCreatePoster.addEventListener(
+    "click",
+    function() {
+
+      showSection("poster");
+
+    }
+  );
+
+}
+
+
+document
+  .querySelectorAll(".create-poster-btn")
+  .forEach(function(button) {
+
+    button.addEventListener(
+      "click",
+      function() {
+
+        showSection("poster");
+
+      }
+    );
+
+  });
+
+
+/* =====================================================
+   OTHER SECTION BUTTONS
+===================================================== */
+
+document
+  .querySelectorAll(".open-section-btn")
+  .forEach(function(button) {
+
+    button.addEventListener(
+      "click",
+      function() {
+
+        const section =
+          this.dataset.open;
+
+        if (section) {
+
+          showSection(section);
+
+        }
+
+      }
+    );
+
+  });
+
+
+/* =====================================================
+   FORMAT BUTTONS
+===================================================== */
+
+document
+  .querySelectorAll(".format")
+  .forEach(function(button) {
+
+    button.addEventListener(
+      "click",
+      function() {
+
+        document
+          .querySelectorAll(".format")
+          .forEach(function(btn) {
+
+            btn.classList.remove(
+              "active"
+            );
+
+          });
+
+
+        this.classList.add("active");
+
+
+        currentFormat =
+          this.dataset.format;
+
+
+        drawPoster(
+          currentFormat
+        );
+
+      }
+    );
+
+  });
+
+
+/* =====================================================
+   INPUT ELEMENTS
+===================================================== */
+
+const productName =
+  document.getElementById(
+    "productName"
+  );
+
+const weight =
+  document.getElementById(
+    "weight"
+  );
+
+const price =
+  document.getElementById(
+    "price"
+  );
+
+const occasion =
+  document.getElementById(
+    "occasion"
+  );
+
+const tagline =
+  document.getElementById(
+    "tagline"
+  );
+
 
 [
-  "productName",
-  "weight",
-  "price",
-  "occasion",
-  "tagline"
-].forEach(id => {
+  productName,
+  weight,
+  price,
+  occasion,
+  tagline
+].forEach(function(element) {
 
-  const element = document.getElementById(id);
+  if (!element) return;
 
-  if (element) {
+  element.addEventListener(
+    "input",
+    function() {
 
-    element.addEventListener("input", function () {
-      drawPoster(currentFormat);
-    });
+      drawPoster(
+        currentFormat
+      );
 
-  }
+    }
+  );
 
 });
 
 
-/* =========================
-   OCCASION
-========================= */
+/* =====================================================
+   IMAGE UPLOAD
+===================================================== */
 
-function occasionHeadline(occasion, product) {
+const photoInput =
+  document.getElementById(
+    "photo"
+  );
 
-  const text = String(occasion || "").toLowerCase();
+
+if (photoInput) {
+
+  photoInput.addEventListener(
+    "change",
+    function(event) {
+
+      const file =
+        event.target.files &&
+        event.target.files[0];
+
+
+      if (!file) {
+
+        return;
+
+      }
+
+
+      if (
+        !file.type ||
+        !file.type.startsWith("image/")
+      ) {
+
+        alert(
+          "Please select a valid image."
+        );
+
+        return;
+
+      }
+
+
+      const reader =
+        new FileReader();
+
+
+      reader.onload =
+        function(e) {
+
+          const image =
+            new Image();
+
+
+          image.onload =
+            function() {
+
+              uploadedImage =
+                image;
+
+
+              drawPoster(
+                currentFormat
+              );
+
+            };
+
+
+          image.onerror =
+            function() {
+
+              alert(
+                "Image load failed."
+              );
+
+            };
+
+
+          image.src =
+            e.target.result;
+
+        };
+
+
+      reader.readAsDataURL(
+        file
+      );
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   OCCASION HEADLINE
+===================================================== */
+
+function occasionHeadline(
+  value,
+  product
+) {
+
+  const text =
+    String(value || "")
+      .toLowerCase();
+
 
   if (
     text.includes("janmashtami") ||
     text.includes("જન્માષ્ટમી")
   ) {
+
     return "શ્રી કૃષ્ણ જન્માષ્ટમી સ્પેશિયલ";
+
   }
+
 
   if (
     text.includes("diwali") ||
     text.includes("દિવાળી")
   ) {
+
     return "દિવાળી સ્પેશિયલ";
+
   }
+
 
   if (
     text.includes("navratri") ||
     text.includes("નવરાત્રી")
   ) {
+
     return "નવરાત્રી સ્પેશિયલ";
+
   }
+
 
   if (
     text.includes("uttarayan") ||
     text.includes("ઉતરાયણ")
   ) {
+
     return "ઉતરાયણ સ્પેશિયલ";
+
   }
+
 
   if (
     text.includes("holi") ||
     text.includes("હોળી")
   ) {
+
     return "હોળી સ્પેશિયલ";
+
   }
+
 
   if (
     text.includes("raksha") ||
     text.includes("રક્ષાબંધન")
   ) {
+
     return "રક્ષાબંધન સ્પેશિયલ";
+
   }
+
 
   if (
     text.includes("independence") ||
     text.includes("15 aug") ||
     text.includes("સ્વતંત્રતા")
   ) {
+
     return "સ્વતંત્રતા દિવસ સ્પેશિયલ";
+
   }
+
 
   return product
     ? product + " માટે ખાસ પસંદગી"
     : "આજની ખાસ પસંદગી";
+
 }
 
 
-/* =========================
-   COVER IMAGE
-========================= */
+/* =====================================================
+   ROUNDED RECTANGLE
+===================================================== */
 
-function fitCover(img, x, y, w, h) {
-
-  if (!img || !img.width || !img.height) return;
-
-  const ratio = Math.max(
-    w / img.width,
-    h / img.height
-  );
-
-  const newWidth = img.width * ratio;
-  const newHeight = img.height * ratio;
-
-  ctx.drawImage(
-    img,
-    x + (w - newWidth) / 2,
-    y + (h - newHeight) / 2,
-    newWidth,
-    newHeight
-  );
-}
-
-
-/* =========================
-   ROUNDED IMAGE
-========================= */
-
-function roundedRectPath(x, y, w, h, radius) {
+function roundedRect(
+  x,
+  y,
+  width,
+  height,
+  radius
+) {
 
   ctx.beginPath();
 
-  if (typeof ctx.roundRect === "function") {
+
+  if (
+    typeof ctx.roundRect ===
+    "function"
+  ) {
 
     ctx.roundRect(
       x,
       y,
-      w,
-      h,
+      width,
+      height,
       radius
     );
 
-  } else {
+    return;
 
-    ctx.moveTo(x + radius, y);
-
-    ctx.lineTo(x + w - radius, y);
-
-    ctx.quadraticCurveTo(
-      x + w,
-      y,
-      x + w,
-      y + radius
-    );
-
-    ctx.lineTo(
-      x + w,
-      y + h - radius
-    );
-
-    ctx.quadraticCurveTo(
-      x + w,
-      y + h,
-      x + w - radius,
-      y + h
-    );
-
-    ctx.lineTo(
-      x + radius,
-      y + h
-    );
-
-    ctx.quadraticCurveTo(
-      x,
-      y + h,
-      x,
-      y + h - radius
-    );
-
-    ctx.lineTo(
-      x,
-      y + radius
-    );
-
-    ctx.quadraticCurveTo(
-      x,
-      y,
-      x + radius,
-      y
-    );
   }
+
+
+  ctx.moveTo(
+    x + radius,
+    y
+  );
+
+
+  ctx.lineTo(
+    x + width - radius,
+    y
+  );
+
+
+  ctx.quadraticCurveTo(
+    x + width,
+    y,
+    x + width,
+    y + radius
+  );
+
+
+  ctx.lineTo(
+    x + width,
+    y + height - radius
+  );
+
+
+  ctx.quadraticCurveTo(
+    x + width,
+    y + height,
+    x + width - radius,
+    y + height
+  );
+
+
+  ctx.lineTo(
+    x + radius,
+    y + height
+  );
+
+
+  ctx.quadraticCurveTo(
+    x,
+    y + height,
+    x,
+    y + height - radius
+  );
+
+
+  ctx.lineTo(
+    x,
+    y + radius
+  );
+
+
+  ctx.quadraticCurveTo(
+    x,
+    y,
+    x + radius,
+    y
+  );
+
 }
 
 
-function drawRoundedImage(img, x, y, w, h, radius) {
+/* =====================================================
+   IMAGE COVER
+===================================================== */
+
+function fitCover(
+  image,
+  x,
+  y,
+  width,
+  height
+) {
+
+  if (
+    !image ||
+    !image.width ||
+    !image.height
+  ) {
+
+    return;
+
+  }
+
+
+  const ratio =
+    Math.max(
+      width / image.width,
+      height / image.height
+    );
+
+
+  const newWidth =
+    image.width * ratio;
+
+
+  const newHeight =
+    image.height * ratio;
+
+
+  ctx.drawImage(
+
+    image,
+
+    x +
+      (width - newWidth) / 2,
+
+    y +
+      (height - newHeight) / 2,
+
+    newWidth,
+
+    newHeight
+
+  );
+
+}
+
+
+/* =====================================================
+   ROUNDED IMAGE
+===================================================== */
+
+function drawRoundedImage(
+  image,
+  x,
+  y,
+  width,
+  height,
+  radius
+) {
 
   ctx.save();
 
-  roundedRectPath(
+
+  roundedRect(
     x,
     y,
-    w,
-    h,
+    width,
+    height,
     radius
   );
 
+
   ctx.clip();
 
+
   fitCover(
-    img,
+    image,
     x,
     y,
-    w,
-    h
+    width,
+    height
   );
 
+
   ctx.restore();
+
 }
 
 
-/* =========================
+/* =====================================================
    DRAW POSTER
-========================= */
+===================================================== */
 
-function drawPoster(format) {
+function drawPoster(
+  format
+) {
 
   if (!canvas || !ctx) {
-    console.error("posterCanvas not found.");
+
+    console.error(
+      "Canvas not found."
+    );
+
     return;
+
   }
 
-  const settings = formats[format];
+
+  const settings =
+    formats[format];
+
 
   if (!settings) {
-    console.error("Invalid poster format:", format);
+
+    console.error(
+      "Invalid format:",
+      format
+    );
+
     return;
+
   }
 
+
   const theme =
-    designs[designIndex % designs.length];
+    designs[
+      designIndex %
+      designs.length
+    ];
 
-  const W = settings.width;
-  const H = settings.height;
 
-  const vertical = H > W;
+  const W =
+    settings.width;
+
+  const H =
+    settings.height;
+
+
+  const vertical =
+    H > W;
+
 
   canvas.width = W;
+
   canvas.height = H;
 
-  /* FORM DATA */
+
+  /* FORM VALUES */
 
   const name =
-    document.getElementById("productName")?.value ||
+    productName?.value ||
     "Jyoti Special";
 
-  const weight =
-    document.getElementById("weight")?.value ||
+
+  const productWeight =
+    weight?.value ||
     "";
 
-  const price =
-    document.getElementById("price")?.value ||
+
+  const productPrice =
+    price?.value ||
     "";
 
-  const occasion =
-    document.getElementById("occasion")?.value ||
+
+  const productOccasion =
+    occasion?.value ||
     "";
 
-  const tagline =
-    document.getElementById("tagline")?.value ||
+
+  const productTagline =
+    tagline?.value ||
     "Crispy • Fresh • Homemade Taste";
 
 
   /* BACKGROUND */
 
-  ctx.fillStyle = theme.bg;
-  ctx.fillRect(0, 0, W, H);
+  ctx.fillStyle =
+    theme.bg;
+
+  ctx.fillRect(
+    0,
+    0,
+    W,
+    H
+  );
 
 
   /* BORDER */
 
-  ctx.strokeStyle = theme.gold;
+  ctx.strokeStyle =
+    theme.gold;
+
   ctx.lineWidth = 8;
 
   ctx.strokeRect(
@@ -451,27 +847,39 @@ function drawPoster(format) {
 
   /* HEADER */
 
-  const headerH =
-    vertical ? 245 : 190;
+  const headerHeight =
+    vertical
+      ? 245
+      : 190;
 
-  ctx.fillStyle = theme.panel;
+
+  ctx.fillStyle =
+    theme.panel;
+
 
   ctx.fillRect(
     0,
     0,
     W,
-    headerH
+    headerHeight
   );
 
 
-  ctx.textAlign = "center";
+  ctx.textAlign =
+    "center";
 
-  ctx.fillStyle = theme.gold;
+
+  /* BRAND */
+
+  ctx.fillStyle =
+    theme.gold;
+
 
   ctx.font =
     "bold " +
     (vertical ? 42 : 36) +
     "px Arial";
+
 
   ctx.fillText(
     "🪔 JYOTI GRUH UDHYOG",
@@ -480,9 +888,15 @@ function drawPoster(format) {
   );
 
 
-  ctx.fillStyle = "#FFF8EA";
+  /* SUBTITLE */
 
-  ctx.font = "22px Arial";
+  ctx.fillStyle =
+    "#FFF8EA";
+
+
+  ctx.font =
+    "22px Arial";
+
 
   ctx.fillText(
     "RAJKOT • PREMIUM HOMEMADE TASTE",
@@ -491,9 +905,15 @@ function drawPoster(format) {
   );
 
 
-  ctx.fillStyle = theme.gold;
+  /* FORMAT */
 
-  ctx.font = "bold 18px Arial";
+  ctx.fillStyle =
+    theme.gold;
+
+
+  ctx.font =
+    "bold 18px Arial";
+
 
   ctx.fillText(
     settings.label,
@@ -502,22 +922,34 @@ function drawPoster(format) {
   );
 
 
-  /* PRODUCT PHOTO */
+  /* PRODUCT IMAGE */
 
   const imgX =
-    vertical ? 65 : 80;
+    vertical
+      ? 65
+      : 80;
+
 
   const imgY =
-    vertical ? 300 : 235;
+    vertical
+      ? 300
+      : 235;
+
 
   const imgW =
-    W - imgX * 2;
+    W -
+    imgX * 2;
+
 
   const imgH =
-    vertical ? 830 : 500;
+    vertical
+      ? 830
+      : 500;
 
 
-  ctx.fillStyle = theme.light;
+  ctx.fillStyle =
+    theme.light;
+
 
   ctx.fillRect(
     imgX - 12,
@@ -540,7 +972,9 @@ function drawPoster(format) {
 
   } else {
 
-    ctx.fillStyle = "#E3CFAD";
+    ctx.fillStyle =
+      "#E3CFAD";
+
 
     ctx.fillRect(
       imgX,
@@ -549,34 +983,45 @@ function drawPoster(format) {
       imgH
     );
 
-    ctx.fillStyle = theme.panel;
+
+    ctx.fillStyle =
+      theme.panel;
+
 
     ctx.font =
       "bold " +
       (vertical ? 52 : 44) +
       "px Arial";
 
+
     ctx.fillText(
       "PRODUCT PHOTO",
       W / 2,
       imgY + imgH / 2
     );
+
   }
 
 
-  /* PRODUCT INFO */
+  /* PRODUCT DETAILS */
 
   let y =
     imgY +
     imgH +
-    (vertical ? 95 : 82);
+    (
+      vertical
+        ? 95
+        : 82
+    );
 
 
   /* OCCASION */
 
-  if (occasion) {
+  if (productOccasion) {
 
-    ctx.fillStyle = theme.gold;
+    ctx.fillStyle =
+      theme.gold;
+
 
     ctx.fillRect(
       80,
@@ -585,34 +1030,43 @@ function drawPoster(format) {
       70
     );
 
-    ctx.fillStyle = theme.panel;
+
+    ctx.fillStyle =
+      theme.panel;
+
 
     ctx.font =
       "bold " +
       (vertical ? 28 : 24) +
       "px Arial";
 
+
     ctx.fillText(
       occasionHeadline(
-        occasion,
+        productOccasion,
         name
       ),
       W / 2,
       y - 2
     );
 
+
     y += 78;
+
   }
 
 
   /* PRODUCT NAME */
 
-  ctx.fillStyle = theme.panel;
+  ctx.fillStyle =
+    theme.panel;
+
 
   ctx.font =
     "bold " +
     (vertical ? 66 : 58) +
     "px Arial";
+
 
   ctx.fillText(
     name,
@@ -623,26 +1077,33 @@ function drawPoster(format) {
 
   /* TAGLINE */
 
-  ctx.fillStyle = "#6C5138";
+  ctx.fillStyle =
+    "#6C5138";
+
 
   ctx.font =
     (vertical ? 31 : 27) +
     "px Arial";
 
+
   ctx.fillText(
-    tagline,
+    productTagline,
     W / 2,
     y + 54
   );
 
 
-  /* PRICE */
+  /* PRICE BADGE */
 
-  const badgeY = y + 88;
+  const badgeY =
+    y + 88;
 
-  ctx.fillStyle = theme.panel;
 
-  roundedRectPath(
+  ctx.fillStyle =
+    theme.panel;
+
+
+  roundedRect(
     W / 2 - 235,
     badgeY,
     470,
@@ -650,18 +1111,24 @@ function drawPoster(format) {
     41
   );
 
+
   ctx.fill();
 
 
-  ctx.fillStyle = theme.gold;
+  ctx.fillStyle =
+    theme.gold;
+
 
   ctx.font =
     "bold " +
     (vertical ? 40 : 34) +
     "px Arial";
 
+
   ctx.fillText(
-    weight + "  •  " + price,
+    productWeight +
+      "  •  " +
+      productPrice,
     W / 2,
     badgeY + 55
   );
@@ -669,12 +1136,15 @@ function drawPoster(format) {
 
   /* FOOTER */
 
-  ctx.fillStyle = theme.panel;
+  ctx.fillStyle =
+    theme.panel;
+
 
   ctx.font =
     "bold " +
     (vertical ? 34 : 29) +
     "px Arial";
+
 
   ctx.fillText(
     "📞 Order Now: 9712149344",
@@ -683,11 +1153,14 @@ function drawPoster(format) {
   );
 
 
-  ctx.fillStyle = "#7B6045";
+  ctx.fillStyle =
+    "#7B6045";
+
 
   ctx.font =
     (vertical ? 21 : 19) +
     "px Arial";
+
 
   ctx.fillText(
     "Fresh • Premium • Hygienic • Jyoti Gruh Udhyog",
@@ -696,19 +1169,35 @@ function drawPoster(format) {
   );
 
 
-  ctx.textAlign = "left";
+  ctx.textAlign =
+    "left";
+
 }
 
 
-/* =========================
-   GENERATE
-========================= */
+/* =====================================================
+   GENERATE 3 POSTERS
+===================================================== */
 
-function generateAllPosters(increment = true) {
+function generateAllPosters(
+  increaseCounter
+) {
 
-  if (increment) {
-    designIndex++;
+  if (
+    increaseCounter === undefined
+  ) {
+
+    increaseCounter = true;
+
   }
+
+
+  if (increaseCounter) {
+
+    designIndex++;
+
+  }
+
 
   drawPoster("square");
 
@@ -716,184 +1205,264 @@ function generateAllPosters(increment = true) {
 
   drawPoster("status");
 
-  drawPoster(currentFormat);
+
+  drawPoster(
+    currentFormat
+  );
 
 
   const counter =
-    document.getElementById("posterCount");
+    document.getElementById(
+      "posterCount"
+    );
 
-  if (increment && counter) {
 
-    const current =
-      Number(counter.textContent) || 0;
+  if (
+    increaseCounter &&
+    counter
+  ) {
+
+    const value =
+      Number(
+        counter.textContent
+      ) || 0;
+
 
     counter.textContent =
-      String(current + 1);
+      String(value + 1);
+
   }
+
 }
 
 
-/* =========================
-   DOWNLOAD SINGLE
-========================= */
+/* =====================================================
+   DOWNLOAD ONE POSTER
+===================================================== */
 
-function downloadPoster(format) {
+function downloadPoster(
+  format
+) {
 
-  if (!canvas || !ctx) {
-    alert("Poster canvas not found.");
+  if (!canvas) {
+
+    alert(
+      "Poster canvas not found."
+    );
+
     return;
+
   }
 
-  drawPoster(format);
 
-  setTimeout(function () {
-
-    try {
-
-      const product =
-        document.getElementById("productName")?.value ||
-        "jyoti-poster";
-
-      const safe =
-        product
-          .trim()
-          .replace(/\s+/g, "-")
-          .replace(/[^a-zA-Z0-9\-_]/g, "") ||
-        "jyoti-poster";
+  drawPoster(
+    format
+  );
 
 
-      const imageURL =
-        canvas.toDataURL(
-          "image/png",
-          1.0
+  setTimeout(
+    function() {
+
+      try {
+
+        const name =
+          productName?.value ||
+          "jyoti-poster";
+
+
+        const safeName =
+          name
+            .trim()
+            .replace(
+              /\s+/g,
+              "-"
+            )
+            .replace(
+              /[^a-zA-Z0-9\-_]/g,
+              ""
+            ) ||
+          "jyoti-poster";
+
+
+        const dataURL =
+          canvas.toDataURL(
+            "image/png"
+          );
+
+
+        const link =
+          document.createElement(
+            "a"
+          );
+
+
+        link.href =
+          dataURL;
+
+
+        link.download =
+          safeName +
+          "-" +
+          format +
+          ".png";
+
+
+        document.body.appendChild(
+          link
         );
 
 
-      const link =
-        document.createElement("a");
+        link.click();
 
-      link.href = imageURL;
 
-      link.download =
-        safe + "-" + format + ".png";
+        document.body.removeChild(
+          link
+        );
 
-      document.body.appendChild(link);
+      }
 
-      link.click();
+      catch(error) {
 
-      document.body.removeChild(link);
+        console.error(
+          error
+        );
 
-    } catch (error) {
 
-      console.error(
-        "Download error:",
-        error
-      );
+        alert(
+          "Download failed. Please try again."
+        );
 
-      alert(
-        "Download error. Please try again."
-      );
-    }
+      }
 
-  }, 100);
+    },
+    150
+  );
+
 }
 
 
-/* =========================
+/* =====================================================
    DOWNLOAD ALL
-========================= */
+===================================================== */
 
 function downloadAllPosters() {
 
-  const oldFormat =
-    currentFormat;
-
-  const formatsToDownload = [
+  const list = [
     "square",
     "story",
     "status"
   ];
 
 
-  formatsToDownload.forEach(
-    function (format, index) {
+  let index = 0;
 
-      setTimeout(
-        function () {
-          downloadPoster(format);
-        },
-        index * 1200
+
+  function nextDownload() {
+
+    if (
+      index >= list.length
+    ) {
+
+      drawPoster(
+        currentFormat
+      );
+
+      return;
+
+    }
+
+
+    downloadPoster(
+      list[index]
+    );
+
+
+    index++;
+
+
+    setTimeout(
+      nextDownload,
+      1800
+    );
+
+  }
+
+
+  nextDownload();
+
+}
+
+
+/* =====================================================
+   GENERATE BUTTON
+===================================================== */
+
+const generateButton =
+  document.getElementById(
+    "generateButton"
+  );
+
+
+if (generateButton) {
+
+  generateButton.addEventListener(
+    "click",
+    function() {
+
+      generateAllPosters(
+        true
       );
 
     }
   );
 
+}
 
-  setTimeout(
-    function () {
 
-      currentFormat =
-        oldFormat;
+/* =====================================================
+   DOWNLOAD ALL BUTTON
+===================================================== */
 
-      drawPoster(oldFormat);
-
-    },
-    4000
+const downloadAllButton =
+  document.getElementById(
+    "downloadAllButton"
   );
+
+
+if (downloadAllButton) {
+
+  downloadAllButton.addEventListener(
+    "click",
+    function() {
+
+      downloadAllPosters();
+
+    }
+  );
+
 }
 
 
-/* =========================
-   NEW DESIGN
-========================= */
-
-function generateNewDesign() {
-
-  designIndex++;
-
-  generateAllPosters(false);
-}
-
-
-/* =========================
-   GLOBAL FUNCTIONS
-========================= */
-
-window.showSection =
-  showSection;
-
-window.generateAllPosters =
-  generateAllPosters;
-
-window.generateNewDesign =
-  generateNewDesign;
-
-window.downloadPoster =
-  downloadPoster;
-
-window.downloadAllPosters =
-  downloadAllPosters;
-
-
-/* =========================
+/* =====================================================
    CALENDAR
-========================= */
+===================================================== */
 
-const occasions = [
+const occasions =
+  [
 
-  "Aug 15 — Independence Day",
+    "Aug 15 — Independence Day",
 
-  "Aug 16 — Daily Product",
+    "Aug 16 — Daily Product",
 
-  "Aug 26 — Janmashtami",
+    "Aug 26 — Janmashtami",
 
-  "Sep 4 — Ganesh Chaturthi",
+    "Sep 4 — Ganesh Chaturthi",
 
-  "Sep 15 — Navratri preparation",
+    "Sep 15 — Navratri preparation",
 
-  "Oct 20 — Diwali preparation"
+    "Oct 20 — Diwali preparation"
 
-];
+  ];
 
 
 const calendarList =
@@ -906,10 +1475,11 @@ if (calendarList) {
 
   calendarList.innerHTML =
     occasions
-      .map(function (item) {
+      .map(function(item) {
 
         const parts =
           item.split(" — ");
+
 
         return `
           <div class="plan">
@@ -920,15 +1490,95 @@ if (calendarList) {
 
       })
       .join("");
+
 }
 
 
-/* =========================
-   INITIAL POSTER
-========================= */
+/* =====================================================
+   30 DAY PLAN
+===================================================== */
 
-generateAllPosters(false);
+const planButton =
+  document.getElementById(
+    "planButton"
+  );
+
+
+if (planButton) {
+
+  planButton.addEventListener(
+    "click",
+    function() {
+
+      alert(
+        "30-Day Marketing Plan તૈયાર થશે. AI API integration પછી automatic plan generation પણ જોડાશે."
+      );
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   REVIEW BUTTON
+===================================================== */
+
+const reviewPosterButton =
+  document.getElementById(
+    "reviewPosterButton"
+  );
+
+
+if (reviewPosterButton) {
+
+  reviewPosterButton.addEventListener(
+    "click",
+    function() {
+
+      showSection(
+        "poster"
+      );
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   GLOBAL FUNCTIONS
+===================================================== */
+
+window.showSection =
+  showSection;
+
+
+window.generateAllPosters =
+  generateAllPosters;
+
+
+window.downloadPoster =
+  downloadPoster;
+
+
+window.downloadAllPosters =
+  downloadAllPosters;
+
+
+/* =====================================================
+   INITIAL POSTER
+===================================================== */
+
+if (canvas) {
+
+  generateAllPosters(
+    false
+  );
+
+}
+
 
 console.log(
-  "Jyoti AI Marketing loaded successfully."
+  "✅ Jyoti AI Marketing app.js loaded successfully."
 );
