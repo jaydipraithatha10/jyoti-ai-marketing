@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="gu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#123d2b">
+  <title>Jyoti AI Marketing</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="brand">
+    <span>🪔</span>
+    <div><b>Jyoti AI</b><small>Marketing</small></div>
+  </div>
+
+  <nav>
+    <button class="nav active" data-section="dashboard">🏠 Dashboard</button>
+    <button class="nav" data-section="poster">🎨 AI Poster</button>
+    <button class="nav" data-section="calendar">📅 Calendar</button>
+    <button class="nav" data-section="reviews">⭐ Reviews</button>
+    <button class="nav" data-section="publishing">📱 Publishing</button>
+    <button class="nav" data-section="analytics">📊 Analytics</button>
+  </nav>
+
+  <div class="side-note">
+    Jyoti Gruh Udhyog<br>
+    Rajkot<br>
+    📞 9712149344
+  </div>
+</aside>
+
+<main>
+<header class="topbar">
+  <div>
+    <span class="eyebrow">AI MARKETING ENGINE</span>
+    <h1 id="pageTitle">Good Morning, Jyoti Gruh Udhyog</h1>
+  </div>
+  <button class="primary" onclick="showSection('poster')">＋ Create Poster</button>
+</header>
+
+<section id="dashboard" class="section active">
+  <div class="hero">
+    <div>
+      <span class="pill">TODAY'S AI PLAN</span>
+      <h2>આજે તમારા business માટે AI શું કરશે?</h2>
+      <p>એક product આપો અને Instagram, Story તથા WhatsApp Status માટે branded creative તૈયાર કરો.</p>
+    </div>
+    <div class="hero-icon">✨</div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><span>🎨 Posters</span><b id="posterCount">0</b><small>આજે બનાવેલા</small></div>
+    <div class="stat"><span>📅 Scheduled</span><b>0</b><small>આગામી posts</small></div>
+    <div class="stat"><span>⭐ Reviews</span><b>0</b><small>Marketing માટે</small></div>
+    <div class="stat"><span>📈 Published</span><b>0</b><small>આ મહિને</small></div>
+  </div>
+
+  <div class="grid two">
+    <div class="card">
+      <div class="card-head"><h3>AI Marketing Today</h3><span>🤖</span></div>
+
+      <div class="todo">
+        <div>🎨 <b>Product Poster</b><small>Instagram + Story + WhatsApp</small></div>
+        <button onclick="showSection('poster')">Create</button>
+      </div>
+
+      <div class="todo">
+        <div>⭐ <b>Customer Review</b><small>Turn an excellent review into content</small></div>
+        <button onclick="showSection('reviews')">Open</button>
+      </div>
+
+      <div class="todo">
+        <div>📅 <b>Upcoming Occasion</b><small>Prepare next occasion creative</small></div>
+        <button onclick="showSection('calendar')">View</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>Publishing Status</h3><span>📱</span></div>
+      <div class="platform"><span>Facebook</span><b>Not connected</b></div>
+      <div class="platform"><span>Instagram</span><b>Not connected</b></div>
+      <div class="platform"><span>WhatsApp</span><b>API setup needed</b></div>
+      <p class="muted">Automatic publishing will be connected later through the official platform APIs.</p>
+    </div>
+  </div>
+</section>
+
+<section id="poster" class="section">
+  <div class="section-title">
+    <div>
+      <span class="eyebrow">CREATIVE STUDIO</span>
+      <h2>3-Format Poster Generator</h2>
+    </div>
+    <span class="pill">9712149344</span>
+  </div>
+
+  <div class="grid poster-grid">
+    <div class="card form-card">
+      <label>Product Name
+        <input id="productName" value="Masala Khakhra">
+      </label>
+
+      <div class="row">
+        <label>Weight
+          <input id="weight" value="500 gm">
+        </label>
+        <label>Price
+          <input id="price" value="₹150">
+        </label>
+      </div>
+
+      <label>Offer / Occasion
+        <input id="occasion" placeholder="e.g. Janmashtami Special">
+      </label>
+
+      <label>Tagline
+        <textarea id="tagline">Crispy • Fresh • Homemade Taste</textarea>
+      </label>
+
+      <label>Product Photo
+        <input id="photo" type="file" accept="image/*">
+      </label>
+
+      <button class="primary wide" onclick="generateAllPosters()">
+        ✨ Generate 3 Posters
+      </button>
+
+      <button class="ghost wide" onclick="downloadAllPosters()">
+        📥 Download All 3
+      </button>
+
+      <p class="muted">
+        Instagram Post 1080×1080 + Instagram Story 1080×1920 + WhatsApp Status 1080×1920.
+      </p>
+    </div>
+
+    <div class="card preview-card">
+      <div class="format-tabs">
+        <button class="format active" data-format="square">Instagram Post</button>
+        <button class="format" data-format="story">Instagram Story</button>
+        <button class="format" data-format="status">WhatsApp Status</button>
+      </div>
+
+      <div class="canvas-wrap">
+        <canvas id="posterCanvas"></canvas>
+      </div>
+
+      <div class="contact">
+        📞 Order Now: <b>9712149344</b>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="calendar" class="section">
+  <div class="section-title">
+    <div><span class="eyebrow">AUTO MARKETING</span><h2>Occasion & Daily Calendar</h2></div>
+  </div>
+
+  <div class="calendar-grid">
+    <div class="card">
+      <h3>Upcoming Marketing</h3>
+      <div id="calendarList"></div>
+    </div>
+
+    <div class="card">
+      <h3>AI Plan</h3>
+      <div class="plan"><b>Daily Product</b><span>1 product creative</span></div>
+      <div class="plan"><b>Festival Creative</b><span>Occasion-based poster</span></div>
+      <div class="plan"><b>Review Marketing</b><span>Best customer review</span></div>
+      <button class="primary wide">Generate 30-Day Plan</button>
+    </div>
+  </div>
+</section>
+
+<section id="reviews" class="section">
+  <div class="section-title">
+    <div><span class="eyebrow">SOCIAL PROOF</span><h2>Review Marketing</h2></div>
+  </div>
+
+  <div class="card">
+    <p class="muted">
+      તમારા existing Excellent / Good / Need Improvement review systemમાંથી
+      review અહીં લાવીને marketing creative બનાવી શકાશે.
+    </p>
+
+    <div class="review-demo">
+      <div class="review-icon">⭐</div>
+      <div>
+        <b>Demo Customer</b>
+        <p>“ખાખરા બહુ સરસ હતા, ટેસ્ટ એકદમ ઘર જેવો.”</p>
+        <small>Excellent</small>
+      </div>
+      <button class="primary" onclick="alert('Review poster workflow ready for API integration.')">
+        Turn into Poster
+      </button>
+    </div>
+  </div>
+</section>
+
+<section id="publishing" class="section">
+  <div class="section-title">
+    <div><span class="eyebrow">AUTOMATION</span><h2>Social Publishing</h2></div>
+  </div>
+
+  <div class="grid three">
+    <div class="card connect">
+      <span>ⓕ</span>
+      <h3>Facebook</h3>
+      <p>Connect Meta account for approved scheduled publishing.</p>
+      <button class="ghost">Connect</button>
+    </div>
+
+    <div class="card connect">
+      <span>◎</span>
+      <h3>Instagram</h3>
+      <p>Connect supported professional account through Meta.</p>
+      <button class="ghost">Connect</button>
+    </div>
+
+    <div class="card connect">
+      <span>◉</span>
+      <h3>WhatsApp</h3>
+      <p>WhatsApp Business Platform/API is required for automation.</p>
+      <button class="ghost">Setup</button>
+    </div>
+  </div>
+</section>
+
+<section id="analytics" class="section">
+  <div class="section-title">
+    <div><span class="eyebrow">INSIGHTS</span><h2>Marketing Analytics</h2></div>
+  </div>
+
+  <div class="card empty">
+    <div>📊</div>
+    <h3>Analytics will appear here</h3>
+    <p>Publishing and engagement data will appear after API connections.</p>
+  </div>
+</section>
+
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>
